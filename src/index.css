@@ -9,3 +9,13 @@
   text-align: center;
   font-size: 26px;
 }
+
+.list-item {
+  display: inline-block;
+}
+
+.del-btn {
+  float: right;
+  padding-right: 5px;
+  cursor: pointer;
+}
