@@ -1,12 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-05-11 13:04:40
- * @LastEditTime: 2020-05-12 09:40:17
+ * @LastEditTime: 2020-05-12 10:03:00
  * @LastEditors: hhhhhq
  * @Description: In User Settings Edit
  * @FilePath: /reminder-review/src/reducers/index.js
  */
 import { ADD_REMINDER, DEL_REMINDER, CLEAR_REMINDER } from '../constants'
+import { bake_cookie, read_cookie } from 'sfcookies'
 
 const reminder = (action) => {
   return {
@@ -16,17 +17,22 @@ const reminder = (action) => {
   }
 }
 
-const reminders = (state = [], action = {}) => {
+const reminders = (state = read_cookie("reminders") || [], action = {}) => {
+  let reminders = null
   switch(action.type) {
     case ADD_REMINDER:
-      return [
+      reminders = [
         ...state,
         reminder(action)
       ]
+      bake_cookie("reminders", reminders)
+      return reminders
     case DEL_REMINDER:
-      return state.filter(reminder => reminder.id !== action.id)
+      reminders =  state.filter(reminder => reminder.id !== action.id)
+      return reminders
     case CLEAR_REMINDER:
-      return []
+      reminders = []
+      return reminders
     default: return state;
   }
 }
